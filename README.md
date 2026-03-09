@@ -2,7 +2,7 @@
 
 A modern, lightweight static website for automatically generating CNC `.nc` files for aluminum bar machining operations. This tool eliminates manual G-code writing by generating precise hole drilling and edge profiling programs based on simple user inputs.
 
-![CNC G-code Generator Demo](Screenshot%202026-03-10%20at%2012.54.55%E2%80%AFAM.png)
+![CNC G-code Generator Demo](demo.png)
 
 ---
 
