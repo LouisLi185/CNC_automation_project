@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CNC G-code Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+
+<main class="page-shell">
+  <section class="hero-card">
+    <div class="hero-badge">⚙️ CNC / G-code / Aluminum Bar</div>
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <h1>CNC Aluminum Bar G-code Generator</h1>
+        <p>
+          Simply enter the number of holes and the file name to automatically generate
+          two <code>.nc</code> files based on your current machining rules:
+          <strong>hole</strong> and <strong>edge</strong>.
+        </p>
+
+        <div class="top-note">
+          <strong>Machining Note:</strong>
+          This version is only intended for aluminum bars with a thickness of <strong>1 mm</strong>.
+          The generated hole and edge G-code are both based on this thickness setting.
+        </div>
+
+        <ul class="feature-list">
+          <li>Hole positions start from Y10 automatically, with 20 mm spacing between holes</li>
+          <li>Aluminum bar length is calculated automatically as 20n mm</li>
+          <li>The edge program Y value is calculated automatically as 20n + 2</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="machine-card">
+          <div class="machine-top"></div>
+          <div class="machine-body">
+            <div class="gantry"></div>
+            <div class="bit"></div>
+            <div class="workpiece"></div>
+          </div>
+          <div class="machine-foot"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="control-card">
+    <div class="section-title-row">
+      <h2>Input Parameters</h2>
+      <p>Please complete all required fields before clicking Generate G-code.</p>
+    </div>
+
+    <form id="gcodeForm" novalidate>
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="holeCount">Number of holes required</label>
+          <input
+                  id="holeCount"
+                  name="holeCount"
+                  type="number"
+                  min="1"
+                  step="1"
+                  inputmode="numeric"
+                  placeholder="e.g. 10"
+                  required
+          />
+          <p class="field-hint">Must be a positive integer, such as 1, 2, or 10.</p>
+          <p class="field-error" id="holeCountError"></p>
+        </div>
+
+        <div class="field-group field-readonly">
+          <label for="barLength">Corresponding aluminum bar length</label>
+          <input id="barLength" name="barLength" type="text" value="Please enter the hole count first" readonly />
+          <p class="field-hint">Automatic calculation formula: 20 × hole count</p>
+        </div>
+
+        <div class="field-group field-span-2">
+          <label for="fileName">File name</label>
+          <input
+                  id="fileName"
+                  name="fileName"
+                  type="text"
+                  placeholder="e.g. aluminum_strip_A"
+                  maxlength="80"
+                  required
+          />
+          <p class="field-hint">Enter only the base file name. Do not add <code>_hole</code>, <code>_edge</code>, or <code>.nc</code>.</p>
+          <p class="field-error" id="fileNameError"></p>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button id="generateBtn" type="submit">Generate G-code</button>
+        <p class="status-text" id="statusText">No file generated yet</p>
+      </div>
+    </form>
+  </section>
+
+  <section class="result-section hidden" id="resultSection">
+    <div class="section-title-row">
+      <h2>Generated Results</h2>
+      <p>The hole file is shown on the left and the edge file on the right. You can copy or download them directly.</p>
+    </div>
+
+    <div class="result-grid">
+      <article class="code-card">
+        <div class="code-card-header">
+          <div>
+            <p class="code-card-label">Hole File</p>
+            <h3 id="holeTitle">example_hole</h3>
+          </div>
+          <div class="code-actions">
+            <button type="button" class="ghost-btn" id="copyHoleBtn">Copy</button>
+            <button type="button" class="ghost-btn" id="downloadHoleBtn">Download</button>
+          </div>
+        </div>
+        <div class="code-box">
+          <pre id="holeCode"></pre>
+        </div>
+      </article>
+
+      <article class="code-card">
+        <div class="code-card-header">
+          <div>
+            <p class="code-card-label">Edge File</p>
+            <h3 id="edgeTitle">example_edge</h3>
+          </div>
+          <div class="code-actions">
+            <button type="button" class="ghost-btn" id="copyEdgeBtn">Copy</button>
+            <button type="button" class="ghost-btn" id="downloadEdgeBtn">Download</button>
+          </div>
+        </div>
+        <div class="code-box">
+          <pre id="edgeCode"></pre>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
